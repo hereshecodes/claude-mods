@@ -1,6 +1,6 @@
 {
   "name": "agent-watch",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Flags risky Bash commands and writes to sensitive paths in a live sidebar pane, with a status-line tally.",
   "types": "./types/index.d.ts",
   "author": {

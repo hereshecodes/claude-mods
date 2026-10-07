@@ -61,6 +61,7 @@ export const register: Register = (on) => {
       flaggedCalls += 1
       const entry: FlaggedEntry = {
         id: nextFlagId(),
+        kind: 'command',
         summary: 'risky command',
         detail: e.command.slice(0, 80),
       }
@@ -75,6 +76,7 @@ export const register: Register = (on) => {
       flaggedCalls += 1
       const entry: FlaggedEntry = {
         id: nextFlagId(),
+        kind: 'path',
         summary: 'write to a sensitive path',
         detail: e.file_path,
       }
@@ -89,6 +91,7 @@ export const register: Register = (on) => {
       flaggedCalls += 1
       const entry: FlaggedEntry = {
         id: nextFlagId(),
+        kind: 'path',
         summary: 'edit to a sensitive path',
         detail: e.file_path,
       }
@@ -101,17 +104,37 @@ export const register: Register = (on) => {
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
     const { Box, Text } = $.ui.resolve(e)
     const list = await read($, flaggedLog)
-    const room = Math.max(1, (e.viewport?.rows ?? 24) - 2)
+    const roomRows = Math.max(1, (e.viewport?.rows ?? 24) - 3)
+    const room = Math.max(1, Math.floor(roomRows / 4))
+    const shown = list.slice(-room)
 
     return (
-      <Box flexDirection="column">
-        {list.length === 0 && (
-          <Text dimColor>No flags yet. Watching Bash, Write, and Edit calls.</Text>
-        )}
-        {list.slice(-room).map((entry) => (
-          <Text key={entry.id}>
-            {entry.summary}: {entry.detail}
+      <Box flexDirection="column" gap={1} paddingX={1} paddingY={1}>
+        {list.length === 0 ? (
+          <Text color="subtle" dimColor>
+            No flags yet. Watching Bash, Write, and Edit calls.
           </Text>
+        ) : (
+          <Text bold>
+            {list.length} flagged this session
+          </Text>
+        )}
+        {shown.map((entry) => (
+          <Box
+            key={entry.id}
+            flexDirection="column"
+            borderStyle="round"
+            borderColor={entry.kind === 'command' ? 'error' : 'warning'}
+            paddingX={1}
+          >
+            <Text bold color={entry.kind === 'command' ? 'error' : 'warning'}>
+              {entry.kind === 'command' ? '⚠ ' : '🔒 '}
+              {entry.summary}
+            </Text>
+            <Text color="subtle" wrap="truncate-end">
+              {entry.detail}
+            </Text>
+          </Box>
         ))}
       </Box>
     )
