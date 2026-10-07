@@ -1,0 +1,9 @@
+{
+  "name": "agent-watch",
+  "version": "0.1.0",
+  "description": "Flags risky Bash commands and writes to sensitive paths in real time, with a live status-line tally.",
+  "author": {
+    "name": "Danielle Scantling",
+    "url": "https://hereshecodes.com"
+  }
+}

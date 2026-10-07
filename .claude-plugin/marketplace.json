@@ -1,0 +1,8 @@
+{
+  "name": "claude-mods",
+  "owner": { "name": "Danielle Scantling" },
+  "plugins": [
+    { "name": "agent-watch", "source": "./agent-watch" },
+    { "name": "throttle", "source": "./throttle" }
+  ]
+}
