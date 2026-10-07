@@ -1,7 +1,7 @@
 import type { Register } from 'claude-code'
 
 // Patterns that read as "this agent is about to do something hard to undo."
-// Not a blocklist — agent-watch never denies a call, it just surfaces the
+// Not a blocklist: agent-watch never denies a call, it just surfaces the
 // moment so a human notices it (OWASP LLM08: excessive agency).
 const RISKY_BASH: RegExp[] = [
   /(^|\s)sudo(\s|$)/,
@@ -33,7 +33,7 @@ export const register: Register = (on) => {
   on('tool.call', { tool: 'Bash' }, ($, e, next) => {
     if (riskyBashHit(e.command)) {
       flaggedCalls += 1
-      $.ui.toast(`agent-watch: risky command — ${e.command.slice(0, 60)}`)
+      $.ui.toast(`agent-watch: risky command: ${e.command.slice(0, 60)}`)
       $.ui.status(`agent-watch: ${totalCalls} calls · ${flaggedCalls} flagged`)
     }
     return next(e)
@@ -42,7 +42,7 @@ export const register: Register = (on) => {
   on('tool.call', { tool: 'Write' }, ($, e, next) => {
     if (PROTECTED_PATH.test(e.file_path)) {
       flaggedCalls += 1
-      $.ui.toast(`agent-watch: write to a sensitive path — ${e.file_path}`)
+      $.ui.toast(`agent-watch: write to a sensitive path: ${e.file_path}`)
       $.ui.status(`agent-watch: ${totalCalls} calls · ${flaggedCalls} flagged`)
     }
     return next(e)
@@ -51,7 +51,7 @@ export const register: Register = (on) => {
   on('tool.call', { tool: 'Edit' }, ($, e, next) => {
     if (PROTECTED_PATH.test(e.file_path)) {
       flaggedCalls += 1
-      $.ui.toast(`agent-watch: edit to a sensitive path — ${e.file_path}`)
+      $.ui.toast(`agent-watch: edit to a sensitive path: ${e.file_path}`)
       $.ui.status(`agent-watch: ${totalCalls} calls · ${flaggedCalls} flagged`)
     }
     return next(e)

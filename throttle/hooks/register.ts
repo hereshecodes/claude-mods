@@ -32,7 +32,7 @@ export const register: Register = (on) => {
 
   on('turn.complete', ($, e, next) => {
     if (hitFullThrottle) {
-      $.ui.toast(`🏍️ full throttle — ${callsThisTurn} tool calls this turn. Hope you're wearing a (coding) helmet.`)
+      $.ui.toast(`🏍️ full throttle: ${callsThisTurn} tool calls this turn. Hope you're wearing a (coding) helmet.`)
     }
     $.ui.status(undefined)
     return next(e)

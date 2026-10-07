@@ -1,7 +1,7 @@
 {
   "name": "throttle",
   "version": "0.1.0",
-  "description": "A motorcycle-themed activity gauge — the status line revs up with how many tool calls happen this turn.",
+  "description": "A motorcycle-themed activity gauge: the status line revs up with how many tool calls happen this turn.",
   "author": {
     "name": "Danielle Scantling",
     "url": "https://hereshecodes.com"
